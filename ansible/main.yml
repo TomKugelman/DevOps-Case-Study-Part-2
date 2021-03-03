@@ -1,8 +1,9 @@
----
-hosts: workers
-remote_user: vagrant
-become: yes
-become_user: root
-
-roles:
-- microk8s
+- name: Intsall metricbeat and configure microk8s
+  hosts: workers
+  remote_user: vagrant
+  become: yes
+  become_user: root
+  
+  roles:
+  - microk8s
+  - metricbeat
