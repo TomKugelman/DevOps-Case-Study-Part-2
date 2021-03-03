@@ -45,4 +45,23 @@ Some manual configuration is required after this step, such as changing the defa
 
 We can now START the Microk8s cluster by running two simple commands
 
-## Stage 2: 
+## Stage 2: Create Jenkinsfile
+Because most, if not all, our configurations are being done through an ansible playbook and roles, all we need jenkins to do is call the playbook. 
+
+While this projects Jenkinsfile is not at all complex, they can quickly become complex when the pipeline calls for things such as testing, which calls for a new environment (such as a docker container) to be created and the application (our flask app) to be run against test cases.
+
+For this application there are no test cases, so we do not need to include this step.
+
+## Stage 3: Setup Microk8s (Note: This is the most basic overview of the necessary steps and is not a replacement for following documentation)
+
+Make sure the Microk8s service is running with
+```
+microk8s start
+```
+
+Then enable the DNS addon which we will need to access the service we will set up soon
+```
+microk8s enable dns
+```
+
+These steps are covered in the file `./ansible/microk8s/task/main.yml` as an ansible playbook

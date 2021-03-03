@@ -15,13 +15,12 @@
   command: microk8s status --wait-ready
 
 - name: Enable DNS module
-  command: microk8s enable dns
+  command: microk8s enable dns dashboard prometheus
 
-- name: add alias 'microk8s kubectl' -> 'kubectl'
-  copy:
-    dest: "/home/vagrant/.bash_aliases"
-    content: |
-      alias kubectl='microk8s kubectl'
+- name: Forward prometheus and grafana ports
+  command: microk8s kubectl proxy &
+  command: microk8s kubectl port-forward -n monitoring service/prometheus-k8s --address 0.0.0.0 9090:9090 &
+  command: microk8s kubectl port-forward -n monitoring service/grafana --address 0.0.0.0 3000:3000 &
 
 - name: Create landing directory for kubernetes yaml
   file:

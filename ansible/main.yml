@@ -6,4 +6,4 @@
   
   roles:
   - microk8s
-  - metricbeat
+  # - metricbeat # Killed because metricbeat setup with kubernetes is not possibel due to time constraints
