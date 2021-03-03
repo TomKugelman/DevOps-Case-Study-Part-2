@@ -4,7 +4,7 @@ pipeline {
         stage("Clone repository into workspace") {
             agent none
             steps {
-                git 'https://github.com/TomKugelman/DevOps-Case-Study-Part-2'
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/TomKugelman/DevOps-Case-Study-Part-2']]])
             }
         }
         stage('Testing Goes here') {
