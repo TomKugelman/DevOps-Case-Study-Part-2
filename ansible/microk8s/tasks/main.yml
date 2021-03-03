@@ -37,4 +37,4 @@
   command: microk8s kubectl apply -f /tmp/dev/kubernetes.yml
 
 - name: Get all namespace information
-  command: microk8s kubectl get all --all-namespaces --wait-ready
+  command: microk8s kubectl get all --all-namespaces
