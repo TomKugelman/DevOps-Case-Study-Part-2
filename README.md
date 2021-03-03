@@ -19,4 +19,30 @@ jenkins-master: This VM was created manually through VirtualBox far ahead of thi
 case-study-worker: This is another ubuntu-server based VM and will act as my kubernetes control node.
 - Base Image: peru/ubuntu-20.04-server-amd64 (Obtiained through Vagrant registry)
 - Provider: VirtualBox
-- Provisioner: Vagrant
+- Provisioner: Vagrant [Vagrantfile Link](./vagrant/Vagrantfile)
+
+## Stage 1: Setup worker VM
+The first step, besides documentation, is to provision a VM for our ansible to target, install necessary packages, and apply a deployemtn and service to a cluster, but that will coem later.
+
+For now we simply navigate to the directory with the aformentioned Vagrantfile and run the following command 
+```
+vagrant up
+```
+Which will provision the virtual machine, and install our kubernetes cluster provider. Here is a snippet from my vagrantfile that show the pakcages to install upon creation
+```
+config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt install snapd -y
+    snap install microk8s --classic
+    apt install net-tools -y
+  SHELL
+```
+Microk8s is our cluster provider and requires the snapd package to install.
+
+Vagrant will handle all the heavy lifting and should install all packages mentioned above.
+
+Some manual configuration is required after this step, such as changing the default password. It is also helpful to run an `ifconfig` and note the fresh VMs IP address.
+
+We can now START the Microk8s cluster by running two simple commands
+
+## Stage 2: 

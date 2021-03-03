@@ -1,0 +1,8 @@
+---
+hosts: workers
+remote_user: vagrant
+become: yes
+become_user: root
+
+roles:
+- microk8s

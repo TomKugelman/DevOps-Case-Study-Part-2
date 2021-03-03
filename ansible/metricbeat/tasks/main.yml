@@ -1,0 +1,37 @@
+---
+- name: Install apt-transport
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
+
+- name: Add metricbeat GPG key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Add apt repo MANUALLY
+  shell:
+    cmd: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: Install metricbeat
+  apt:
+    name: metricbeat
+    state: present
+    update_cache: yes
+
+- name: Replace a localhost entry in metricbeat.yml with elasticsearch IP
+  ansible.builtin.lineinfile:
+    path: /etc/metricbeat/metricbeat.yml
+    regexp: 'hosts: ["localhost:9200"]'
+    line: hosts: ["192.168.1.172:9200"]
+
+- name: Replace a localhost entry in metricbeat.yml with elasticsearch IP
+  ansible.builtin.lineinfile:
+    path: /etc/metricbeat/metricbeat.yml
+    regexp: '#host: "localhost:5601"'
+    line: host: "192.168.1.172:5601"
+
+- name: Enable kubernetes moduel for metricbeat
+  command: /usr/share/metricbeat module enable kubernetes
+  command: /usr/share/metricbeat setup

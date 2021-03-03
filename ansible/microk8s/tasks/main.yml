@@ -1,0 +1,40 @@
+---
+
+- name: Create microk8s group
+  group:
+    name: microk8s
+    state: present
+
+- name: Add vagrant to microk8s user group
+  user:
+    name: vagrant
+    group: microk8s
+    append: yes
+
+- name: Check microk8s status
+  command: microk8s status --wait-ready
+
+- name: Enable DNS module
+  command: microk8s enable dns
+
+- name: add alias 'microk8s kubectl' -> 'kubectl'
+  copy:
+    dest: "/home/vagrant/.bash_aliases"
+    content: |
+      alias kubectl='microk8s kubectl'
+
+- name: Create landing directory for kubernetes yaml
+  file:
+    path: /tmp/dev
+    state: directory
+
+- name: Copy kubernetes yaml to target machine
+  copy:
+    src: ../files/kubernetes.yml
+    dest: /tmp/dev
+
+- name: Apply kubernetes yaml (deployment and service)
+  command: kubectl apply -f /tmp/kubernetes.yml
+
+- name: Get all namespace information
+  command: kubectl get all --all-namespaces --wait-ready
