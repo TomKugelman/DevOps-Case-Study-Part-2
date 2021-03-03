@@ -34,7 +34,7 @@
     dest: /tmp/dev
 
 - name: Apply kubernetes yaml (deployment and service)
-  command: kubectl apply -f /tmp/kubernetes.yml
+  command: microk8s kubectl apply -f /tmp/kubernetes.yml
 
 - name: Get all namespace information
-  command: kubectl get all --all-namespaces --wait-ready
+  command: microk8s kubectl get all --all-namespaces --wait-ready
