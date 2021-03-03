@@ -23,15 +23,16 @@
 - name: Replace a localhost entry in metricbeat.yml with elasticsearch IP
   ansible.builtin.lineinfile:
     path: /etc/metricbeat/metricbeat.yml
-    regexp: '^hosts: ["localhost:9200"]'
+    regexp: '*hosts: ["localhost:9200"]'
     line: 'hosts: ["192.168.1.172:9200"]'
 
 - name: Replace a localhost entry in metricbeat.yml with kibana IP
   ansible.builtin.lineinfile:
     path: /etc/metricbeat/metricbeat.yml
-    regexp: '^\#host: "localhost:5601"'
+    regexp: '*host: "localhost:5601"'
     line: 'host: "192.168.1.172:5601"'
 
 - name: Enable kubernetes moduel for metricbeat
-  command: sudo /usr/share/metricbeat module enable kubernetes
-  command: sudo /usr/share/metricbeat setup
+  command: sudo metricbeat modules enable kubernetes
+  command: sudo metricbeat setup
+  command: sudo service metricbeat start
