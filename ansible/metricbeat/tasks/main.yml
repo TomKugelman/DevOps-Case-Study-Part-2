@@ -33,5 +33,5 @@
     line: 'host: "192.168.1.172:5601"'
 
 - name: Enable kubernetes moduel for metricbeat
-  command: /usr/share/metricbeat module enable kubernetes
-  command: /usr/share/metricbeat setup
+  command: sudo /usr/share/metricbeat module enable kubernetes
+  command: sudo /usr/share/metricbeat setup
