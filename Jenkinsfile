@@ -1,9 +1,15 @@
 pipeline {
     agent { node { label 'master' } } 
     stages {
-        stage("Clone repository into workspace") {
-            steps {
-                git 'https://github.com/TomKugelman/DevOps-Case-Study-Part-2'
+        stage("Checkout") {
+            steps{
+                script {
+                    checkout(
+                        [$class: 'GitSCM', 
+                        branches: [[name: '*/main']], 
+                        extensions: [], 
+                        userRemoteConfigs: [[url: 'https://github.com/TomKugelman/DevOps-Case-Study-Part-2']]])
+                }
             }
         }
         stage('Testing Goes here') {
