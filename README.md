@@ -84,7 +84,7 @@ Gives us an output of:
 
 ![default dump](./reference-images/default-namespace-dump.PNG)
 
-Now we have confirmed our flask app is runnig on three pods and has a service to expose it with the IP of this machine at port `30785`
+Now we have confirmed our flask app is running on three pods and has a service to expose it with the IP of this machine at port `30785`
 
 ![flask-app](./reference-images/flask-app.PNG)
 
@@ -125,7 +125,23 @@ However, this system utilisation view is more about how much of each *containers
 
 ![glances dump](./reference-images/glances-dump.PNG)
 
-We can clearly see that some snap services are hogging all our resources! As microk8s comes form the snap package repo, we can once again confirm our cluster is at least running.
+We can clearly see that some snap services are hogging all our resources! As microk8s comes from the snap package repo, we can once again confirm our cluster is at least running.
+
+Without monitoring these very important metrics, we wouldn't be able to make changes to our infrastructure to better our service. Here is an example of what I mean:
+
+---
+
+Let's say you have a setup just like mine, but instead of just a boring static web page, we are hosting a forum site (pretend we are exposing this service to the public network). Yeah maybe with only a few users posting every so often, we wouldn't need to worry about our pods being flooded.
+
+Then a few more people join the forum site and start posting. Yes, we may have seen the number of accounst go up, but that doesn't directly translate to more utilzation (What if they never use the site and just make accounts like a bot, or post frequently, or worse yet... they're a lurker).
+
+Then more people join and suddenly there's a ton more activity on our forum, hooray!
+
+Uh-oh, we weren't monitoring our pods properly and some of them have crashed and the one that is still hanging on is starved for resources, crippling our sites ability to deliver cute animal pictures!
+
+Now we are forced to restart the pods and likely take our service offline for a minute before we can spin up and test some more.
+
+We could have avoided this outage if whatever lazy technician (me) set up monitoring with alerts for when there weren't enough pods to accomodate all the traffic. Once that alert is recieved we can pat ourselves on the back for making such a popular website, before sprinting to our machines to provision some mmore infrastucture!
 
 ## Final Thoughts and Issues
 
